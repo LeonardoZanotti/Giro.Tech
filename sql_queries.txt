@@ -1,0 +1,32 @@
+1. Buscar os nomes de todos os alunos que frequentam alguma turma do professor 'JOAO PEDRO'.
+SELECT ALUNO.Nome
+  FROM ALUNO, TURMA, PROFESSOR
+  WHERE PROFESSOR.Nome = 'JOAO PEDRO'
+
+2. Buscar os dias da semana que tenham aulas da disciplina 'MATEMATICA'.
+SELECT TURMA.dia_da_semana
+  FROM TURMA, DISCIPLINA
+  WHERE DISCIPLINA.nome = 'MATEMATICA
+
+3. Buscar todos os alunos que frequentem aulas de 'MATEMATICA' e também 'FISICA'.
+SELECT ALUNO.Nome
+  FROM ALUNO, TURMA, DISCIPLINA
+  WHERE DISCIPLINA.nome = 'MATEMATICA'
+     OR DISCIPLINA.nome = 'FISICA'
+
+4. Buscar as disciplinas que não tenham nenhuma turma.
+SELECT DISCIPLINA.nome
+  FROM DISCIPLINA
+  WHERE NOT EXISTS 
+	     (SELECT * FROM TURMA
+              WHERE DISCIPLINA.id = TURMA.DISCIPLINA_Id)
+
+5. Buscar os alunos que frequentem aulas de 'MATEMATICA' exceto os que frequentem 'QUIMICA'.
+SELECT ALUNO.Nome
+  FROM ALUNO a, TURMA, DISCIPLINA
+  WHERE DISCIPLINA.nome = 'MATEMATICA'
+    AND NOT EXISTS 
+        (SELECT *
+         FROM ALUNO b, TURMA, DISCIPLINA
+         WHERE a.id = b.id
+         AND DISCIPLINA.nome = 'QUIMICA')
